@@ -36,7 +36,9 @@ export class AddressService {
 
     if (!address) return new BadRequestException(`No hay dirección con el id ${id}`);
 
-    return await this.addressRepository.update(id, updateAddressDto);
+    const editAddress = Object.assign(address, updateAddressDto);
+
+    return await this.addressRepository.save(editAddress);
   }
 
   async remove(id: number) {
@@ -44,6 +46,6 @@ export class AddressService {
 
     if (!address) return new BadRequestException(`No hay dirección con el id ${id}`);
 
-    return await this.addressRepository.remove(address);
+    return await this.addressRepository.softDelete(id);
   }
 }

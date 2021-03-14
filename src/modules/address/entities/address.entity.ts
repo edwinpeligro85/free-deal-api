@@ -1,5 +1,14 @@
 import { User } from "src/modules/user/entities/user.entity";
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+    BaseEntity,
+    Column,
+    CreateDateColumn,
+    DeleteDateColumn,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from "typeorm";
 import { MainRoad, PropertyType } from "../enums";
 
 @Entity('addresses')
@@ -37,4 +46,13 @@ export class Address extends BaseEntity {
 
     @ManyToOne( () => User, user => user.id )
     owner: User;
+
+    @CreateDateColumn({ name: 'created_at', update: false })
+    createdAt!: Date;
+
+    @UpdateDateColumn({ name: 'updated_at' })
+    updatedAt!: Date;
+
+    @DeleteDateColumn({ name: 'deleted_at' })
+    deletedAt?: Date;
 }

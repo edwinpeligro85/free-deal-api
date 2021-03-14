@@ -2,7 +2,6 @@ import { ApiProperty, ApiTags } from "@nestjs/swagger";
 import { User } from "src/modules/user/entities/user.entity";
 import { MainRoad, PropertyType } from "../enums";
 
-@ApiTags('x')
 export class CreateAddressDto {
     
     @ApiProperty({

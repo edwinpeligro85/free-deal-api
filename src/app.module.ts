@@ -7,6 +7,8 @@ import configuration from './config/configuration';
 import { DatabaseModule } from './database/database.module';
 
 import { FeactureModules } from './modules';
+import { LocationModule } from './modules/location/location.module';
+import { OnDeleteItemEvent } from './common/events/on-delete-item.event';
 
 @Module({
   imports: [
@@ -17,9 +19,10 @@ import { FeactureModules } from './modules';
       expandVariables: true
     }),
     DatabaseModule,
-    ...FeactureModules
+    ...FeactureModules,
+    LocationModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, OnDeleteItemEvent],
 })
 export class AppModule {}
