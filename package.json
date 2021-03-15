@@ -19,12 +19,14 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migration:create": "typeorm migration:create -n PostRefactoring"
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
+    "migration:create": "npm run typeorm migration:create -n PrimeraMigracion"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.13",
     "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.6.13",
+    "@nestjs/event-emitter": "0.0.3",
     "@nestjs/platform-express": "^7.6.13",
     "@nestjs/swagger": "^4.7.16",
     "@nestjs/typeorm": "^7.1.5",

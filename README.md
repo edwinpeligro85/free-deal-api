@@ -58,6 +58,19 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Migration
+Instale ts-node a nivel mundial:
+
+$ npm install -g ts-node
+
+Para cargar las migraciones puede ejecutar el comando de esta manera:
+
+$ npm run typeorm migration:run
+
+Para generar una nueva migracion puede ejecutar el comando de esta manera:
+
+$ npm run typeorm migration:generate -- -n {{NAME}}
+
 ## Docker image
 $ docker run -d -p 33061:3306 --name mysql57 -e MYSQL_ROOT_PASSWORD=secret mysql:5.7 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 

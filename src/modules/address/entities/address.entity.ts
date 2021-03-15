@@ -1,3 +1,4 @@
+import { Location } from "src/modules/location/entities/location.entity";
 import { User } from "src/modules/user/entities/user.entity";
 import {
     BaseEntity,
@@ -5,7 +6,9 @@ import {
     CreateDateColumn,
     DeleteDateColumn,
     Entity,
+    JoinColumn,
     ManyToOne,
+    OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn
 } from "typeorm";
@@ -46,6 +49,10 @@ export class Address extends BaseEntity {
 
     @ManyToOne( () => User, user => user.id )
     owner: User;
+    
+    @OneToOne( () => Location, { cascade: true, eager: true } )
+    @JoinColumn()
+    location: Location;
 
     @CreateDateColumn({ name: 'created_at', update: false })
     createdAt!: Date;

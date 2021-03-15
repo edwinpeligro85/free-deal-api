@@ -7,8 +7,8 @@ import configuration from './config/configuration';
 import { DatabaseModule } from './database/database.module';
 
 import { FeactureModules } from './modules';
-import { LocationModule } from './modules/location/location.module';
 import { OnDeleteItemEvent } from './common/events/on-delete-item.event';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -19,8 +19,8 @@ import { OnDeleteItemEvent } from './common/events/on-delete-item.event';
       expandVariables: true
     }),
     DatabaseModule,
-    ...FeactureModules,
-    LocationModule
+    EventEmitterModule.forRoot(),
+    ...FeactureModules
   ],
   controllers: [AppController],
   providers: [AppService, OnDeleteItemEvent],
