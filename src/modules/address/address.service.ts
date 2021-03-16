@@ -18,15 +18,16 @@ export class AddressService {
   ) {}
 
   async create(createAddressDto: CreateAddressDto, ip?: string) {
-    const user = await this._user.findOneById(createAddressDto.owner.id);
+    const user = await this._user.findOneById(createAddressDto.ownerId);
 
-    if (!user) return new BadRequestException(`No hay usuario con el id ${createAddressDto.owner.id}`);
+    if (!user) return new BadRequestException(`No hay usuario con el id ${createAddressDto.ownerId}`);
 
     const location = await this._location.create( ip );
     const address = new Address();
     address.location = location;
 
     const createAddress = Object.assign(address, createAddressDto);
+    createAddress.owner = user;
     
     return await this.addressRepository.save(createAddress);
   }

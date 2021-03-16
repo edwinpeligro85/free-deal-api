@@ -54,9 +54,8 @@ export class CreateAddressDto {
     personName: string;
 
     @ApiProperty({
-        type: User,
-        description: "Objeto User con el Id de Usuario o Comercio a quien pertenece",
-        example: { id: 1, email: 'example@freedeal.com' }
+        description: "Id de Usuario o Comercio a quien pertenece",
+        example: 1
     })
-    owner: Partial<User>;
+    ownerId: number;
 }
