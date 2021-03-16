@@ -9,6 +9,7 @@ import { DatabaseModule } from './database/database.module';
 import { FeactureModules } from './modules';
 import { OnDeleteItemEvent } from './common/events/on-delete-item.event';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { CountryModule } from './modules/country/country.module';
 
 @Module({
   imports: [
