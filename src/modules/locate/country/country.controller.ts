@@ -17,6 +17,19 @@ import { Country } from './entities/country.entity';
   routes: {
     only: ['createOneBase', 'getOneBase', 'getManyBase', 'deleteOneBase'],
   },
+  query: {
+    exclude: ['deletedAt'],
+    join: {
+      states: {
+        eager: true,
+        exclude: ['deletedAt']
+      },
+      'states.cities': {
+        eager: true,
+        exclude: ['deletedAt']
+      }
+    },
+  },
 })
 @ApiTags('Paises')
 @Controller('country')

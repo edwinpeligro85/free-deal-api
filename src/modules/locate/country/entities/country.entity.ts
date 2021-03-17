@@ -1,7 +1,7 @@
 import { CrudValidationGroups } from '@nestjsx/crud';
 import { IsOptional, IsNotEmpty, IsString, MaxLength } from 'class-validator';
 import { CustomBaseEntity } from 'src/base-entity';
-import { State } from 'src/modules/state/entities/state.entity';
+import { State } from 'src/modules/locate/state/entities/state.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('countries')

@@ -17,12 +17,13 @@ import { Crud, CrudController } from '@nestjsx/crud';
   routes: {
     only: ['createOneBase', 'getOneBase', 'getManyBase', 'deleteOneBase'],
   },
-  // params: {
-  //   countryId: {
-  //     field: 'countryId',
-  //     type: 'number',
-  //   },
-  // }
+  query: {
+    join: {
+      cities: {
+        eager: true,
+      },
+    },
+  },
 })
 @ApiTags('Departamentos')
 @Controller('state')
