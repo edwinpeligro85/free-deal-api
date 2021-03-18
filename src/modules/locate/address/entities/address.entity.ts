@@ -39,7 +39,7 @@ export class Address extends CustomBaseEntity {
   @Column({ name: 'person_name', type: 'varchar', length: 55 })
   personName: string;
 
-  @ManyToOne(() => User, (user) => user.id)
+  @ManyToOne(() => User, (user) => user.id, { nullable: false })
   owner: User;
 
   @OneToOne(() => City, { cascade: true, eager: true })

@@ -6,7 +6,12 @@ import { StateModule } from './state/state.module';
 import { CityModule } from './city/city.module';
 
 @Module({
-  imports: [AddressModule, LocationModule, CountryModule, StateModule, CityModule],
-//   exports: [AddressModule, LocationModule, CountryModule, StateModule]
+  imports: [
+    AddressModule,
+    LocationModule,
+    CountryModule,
+    StateModule,
+    CityModule,
+  ],
 })
 export class LocateModule {}

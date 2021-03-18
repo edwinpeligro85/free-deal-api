@@ -9,8 +9,6 @@ import { DatabaseModule } from './database/database.module';
 import { FeactureModules } from './modules';
 import { OnDeleteItemEvent } from './common/events/on-delete-item.event';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { CountryModule } from './modules/locate/country/country.module';
-import { LocateModule } from './modules/locate/locate.module';
 
 @Module({
   imports: [
@@ -18,12 +16,11 @@ import { LocateModule } from './modules/locate/locate.module';
       load: [configuration],
       isGlobal: true,
       cache: true,
-      expandVariables: true
+      expandVariables: true,
     }),
     DatabaseModule,
     EventEmitterModule.forRoot(),
     ...FeactureModules,
-    LocateModule
   ],
   controllers: [AppController],
   providers: [AppService, OnDeleteItemEvent],
