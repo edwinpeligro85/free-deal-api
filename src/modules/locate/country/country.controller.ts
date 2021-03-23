@@ -1,6 +1,6 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Crud } from '@nestjsx/crud';
+import { Crud, CrudController } from '@nestjsx/crud';
 import { CountryService } from './country.service';
 import { CreateCountryDto } from './dto/create-country.dto';
 import { UpdateCountryDto } from './dto/update-country.dto';
@@ -33,6 +33,6 @@ import { Country } from './entities/country.entity';
 })
 @ApiTags('Paises')
 @Controller('country')
-export class CountryController {
+export class CountryController implements CrudController<Country> {
   constructor(public readonly service: CountryService) {}
 }

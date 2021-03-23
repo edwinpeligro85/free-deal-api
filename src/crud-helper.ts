@@ -11,6 +11,6 @@ export class CrudHelper<T> extends TypeOrmCrudService<T> {
     const id = req.parsed.paramsFilter.find(
       (f) => f.field === 'id' && f.operator === '$eq',
     ).value;
-    await this.repo.softDelete(id);
+    await this.repo.softRemove(id);
   }
 }

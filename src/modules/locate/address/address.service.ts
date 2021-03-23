@@ -18,7 +18,7 @@ export class AddressService {
   ) {}
 
   async create(createAddressDto: CreateAddressDto, ip?: string) {
-    const user = await this._user.findOneById(createAddressDto.ownerId);
+    const user = await this._user.findOne(createAddressDto.ownerId);
 
     if (!user) return new BadRequestException(`No hay usuario con el id ${createAddressDto.ownerId}`);
 

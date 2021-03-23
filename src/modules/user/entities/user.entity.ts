@@ -1,7 +1,8 @@
 import { CustomBaseEntity } from 'src/base-entity';
-import { Column, Entity } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 import { UserRole } from '../enums/user-role.enum';
 import { UserStatus } from '../enums/user-status';
+import { hash } from 'bcrypt';
 
 @Entity('users')
 export class User extends CustomBaseEntity {
@@ -29,7 +30,7 @@ export class User extends CustomBaseEntity {
   @Column({ type: 'enum', enum: UserRole })
   role: UserRole;
 
-  @Column({ type: 'enum', enum: UserStatus, default: UserStatus.DRAFT })
+  @Column({ type: 'enum', enum: UserStatus, default: UserStatus.INACTIVE })
   status: UserStatus;
 
   @Column({ name: 'last_page', type: 'varchar', length: 192, nullable: true })
@@ -37,4 +38,12 @@ export class User extends CustomBaseEntity {
 
   @Column({ name: 'last_access_on', type: 'datetime', nullable: true })
   lastAccessOn: string;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async hashPassword() {
+    if (!this.password) return;
+  
+    this.password = await hash(this.password, 10);
+  }
 }

@@ -15,7 +15,16 @@ import { Crud, CrudController } from '@nestjsx/crud';
     update: UpdateUserDto,
   },
   routes: {
-    only: ['createOneBase', 'getOneBase', 'getManyBase', 'deleteOneBase'],
+    only: [
+      'createOneBase',
+      'getOneBase',
+      'getManyBase',
+      'deleteOneBase',
+      'updateOneBase',
+    ],
+    updateOneBase: {
+      returnShallow: false,
+    },
   },
 })
 @ApiTags('Usuarios')
