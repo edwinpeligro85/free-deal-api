@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
 import { Crud, CrudController } from '@nestjsx/crud';
+import { Auth } from 'src/common/decorators/auth.decorator';
 
 @Crud({
   model: {
@@ -24,6 +25,9 @@ import { Crud, CrudController } from '@nestjsx/crud';
     ],
     updateOneBase: {
       returnShallow: false,
+    },
+    getOneBase: {
+      decorators: [Auth()],
     },
   },
 })

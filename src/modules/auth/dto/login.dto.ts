@@ -1,13 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { CrudValidationGroups } from "@nestjsx/crud";
-import { IsOptional, IsNotEmpty, IsString, MaxLength, IsEmail, MinLength } from "class-validator";
+import { IsNotEmpty, IsString, MaxLength, IsEmail, MinLength } from "class-validator";
 
 export class LoginDto {
   @ApiProperty({
     example: 'example@freedeal.com',
   })
-  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
-  @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
+  @IsNotEmpty()
   @IsString({ always: true })
   @MaxLength(255, { always: true })
   @IsEmail({}, { always: true })
@@ -18,9 +16,8 @@ export class LoginDto {
     maxLength: 20,
     example: '******',
   })
-  @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
-  @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
-  @IsString()
+  @IsNotEmpty()
+  @IsString({ always: true })
   @MinLength(6)
   @MaxLength(20)
   password: string;
