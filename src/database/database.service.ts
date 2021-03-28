@@ -2,7 +2,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { join } from "path";
 import { Configuration } from "src/config/config.keys";
-import { EnvironmentDataBase } from "src/config/Environments.interface";
+import { EnvironmentDataBase } from "src/interfaces/environmentDataBase.interface";
 
 export const databaseProvider = [
     TypeOrmModule.forRootAsync({
