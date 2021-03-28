@@ -16,7 +16,7 @@ import { Configuration } from 'src/config/config.keys';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
         secret: config.get<string>(Configuration.JWT_SECRET),
-        signOptions: { expiresIn: '60s' },
+        signOptions: { expiresIn: '60m' },
       }),
     }),
   ],

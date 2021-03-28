@@ -9,6 +9,8 @@ import { DatabaseModule } from './database/database.module';
 import { FeactureModules } from './modules';
 import { OnDeleteItemEvent } from './common/events/on-delete-item.event';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { AccessControlModule } from 'nest-access-control';
+import { roles } from './app.roles';
 
 @Module({
   imports: [
@@ -19,6 +21,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
       expandVariables: true,
     }),
     DatabaseModule,
+    AccessControlModule.forRoles(roles),
     EventEmitterModule.forRoot(),
     ...FeactureModules,
   ],
