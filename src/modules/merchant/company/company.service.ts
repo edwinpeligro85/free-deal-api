@@ -1,26 +1,35 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CrudHelper } from 'src/crud-helper';
+import { AddressService } from 'src/modules/locate/address/address.service';
+import { UserService } from 'src/modules/user/user.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
-import { UpdateCompanyDto } from './dto/update-company.dto';
+import { Company } from './entities/company.entity';
 
 @Injectable()
-export class CompanyService {
-  create(createCompanyDto: CreateCompanyDto) {
-    return 'This action adds a new company';
+export class CompanyService extends CrudHelper<Company> {
+  constructor(
+    @InjectRepository(Company) repo,
+    private readonly _user: UserService,
+    private readonly _address: AddressService,
+  ) {
+    super(repo);
   }
 
-  findAll() {
-    return `This action returns all company`;
-  }
+  async create(dto: CreateCompanyDto) {
+    const company = new Company();
 
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
-  }
+    const user = await this._user.findOne(dto.userId);
+    if (!user) return company;
 
-  update(id: number, updateCompanyDto: UpdateCompanyDto) {
-    return `This action updates a #${id} company`;
-  }
+    const createCompany = Object.assign(company, dto);
+    createCompany.user = user;
 
-  remove(id: number) {
-    return `This action removes a #${id} company`;
+    const address = await this._address.findOne(dto.addressId);
+    if (address) {
+      createCompany.address = address;
+    }
+
+    return await createCompany.save();
   }
 }

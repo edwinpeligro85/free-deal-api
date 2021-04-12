@@ -13,6 +13,7 @@ import { LocationModule } from '../location/location.module';
     LocationModule
   ],
   controllers: [AddressController],
-  providers: [AddressService]
+  providers: [AddressService],
+  exports: [AddressService]
 })
 export class AddressModule {}

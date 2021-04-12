@@ -15,7 +15,7 @@ export class BaseCompany extends CustomBaseEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   brand?: string;
 
-  @OneToOne(() => Address, { cascade: true, eager: true })
+  @OneToOne(() => Address, { cascade: true, eager: true, nullable: true})
   @JoinColumn()
-  address: Address;
+  address?: Address;
 }

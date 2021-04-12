@@ -59,7 +59,7 @@ export class CreateUserDto {
   @ApiProperty({
     required: false,
     minLength: 6,
-    maxLength: 12,
+    maxLength: 15,
     example: '3131313131',
   })
   @IsOptional({

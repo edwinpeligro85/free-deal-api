@@ -1,8 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { BranchOfficeService } from './branch-office.service';
 import { CreateBranchOfficeDto } from './dto/create-branch-office.dto';
 import { UpdateBranchOfficeDto } from './dto/update-branch-office.dto';
 
+@ApiTags('Sucursales')
 @Controller('branch-office')
 export class BranchOfficeController {
   constructor(private readonly branchOfficeService: BranchOfficeService) {}
