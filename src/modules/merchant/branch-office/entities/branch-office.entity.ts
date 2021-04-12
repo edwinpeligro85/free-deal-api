@@ -1,8 +1,9 @@
 import { CustomBaseEntity } from 'src/base-entity';
 import { Address } from 'src/modules/locate/address/entities/address.entity';
 import { User } from 'src/modules/user/entities/user.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { Company } from '../../company/entities/company.entity';
+import { Employee } from '../../employee/entities/employee.entity';
 
 @Entity('branch_offices')
 export class BranchOffice extends CustomBaseEntity {
@@ -22,4 +23,10 @@ export class BranchOffice extends CustomBaseEntity {
     nullable: false,
   })
   company: Company;
+
+  @OneToMany(() => Employee, (employee) => employee.branchOffice, {
+    cascade: true,
+    eager: true,
+  })
+  employees: Employee[];
 }
