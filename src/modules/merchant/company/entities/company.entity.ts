@@ -1,12 +1,35 @@
+import { CustomBaseEntity } from 'src/base-entity';
+import { Address } from 'src/modules/locate/address/entities/address.entity';
 import { User } from 'src/modules/user/entities/user.entity';
-import { Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { BranchOffice } from '../../branch-office/entities/branch-office.entity';
-import { BaseCompany } from './base-company.entity';
 
 @Entity('companies')
-export class Company extends BaseCompany {
-  @ManyToOne(() => User, (user) => user.id, { nullable: false })
-  user: User;
+export class Company extends CustomBaseEntity {
+
+  @Column({ name: 'business_name', type: 'varchar', length: 192 })
+  businessName: string;
+
+  @Column({ name: 'business_phone', type: 'varchar', length: 15, nullable: true })
+  businessPhone?: string;
+
+  @Column({ type: 'varchar', length: 15, nullable: true })
+  nit?: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  brand?: string;
+
+  @OneToOne(() => Address, { cascade: true, eager: true, nullable: true})
+  @JoinColumn()
+  address?: Address;
+
+  @OneToOne(() => User)
+  @JoinColumn()
+  manager: User;
+
+  @OneToOne(() => User)
+  @JoinColumn()
+  administrator: User;
 
   @OneToMany(() => BranchOffice, (branchOffice) => branchOffice.company, {
     cascade: true,

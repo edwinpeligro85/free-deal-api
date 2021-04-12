@@ -75,7 +75,7 @@ export class CompanyController implements CrudController<Company> {
   ) {
     const create = await this.service.create(createCompanyDto);
 
-    if (!create.user)
+    if (!create.manager)
       return CustomResponse.FailedResponse(
         res,
         HttpStatus.BAD_REQUEST,

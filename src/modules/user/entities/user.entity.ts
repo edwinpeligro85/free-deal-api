@@ -3,6 +3,7 @@ import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 import { UserRole } from '../enums/user-role.enum';
 import { UserStatus } from '../enums/user-status';
 import { hash } from 'bcrypt';
+import { Gender } from 'src/common/enums/gender.enum';
 
 @Entity('users')
 export class User extends CustomBaseEntity {
@@ -36,8 +37,14 @@ export class User extends CustomBaseEntity {
   @Column({ name: 'last_page', type: 'varchar', length: 192, nullable: true })
   lastPage: string;
 
+  @Column({ name: 'birth_date', type: 'datetime', nullable: true })
+  birthDate: Date;
+
   @Column({ name: 'last_access_on', type: 'datetime', nullable: true })
-  lastAccessOn: string;
+  lastAccessOn: Date;
+
+  @Column({ type: 'enum', enum: Gender, nullable: true })
+  gender: Gender;
 
   @BeforeInsert()
   @BeforeUpdate()

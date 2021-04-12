@@ -23,7 +23,8 @@ export class CompanyService extends CrudHelper<Company> {
     if (!user) return company;
 
     const createCompany = Object.assign(company, dto);
-    createCompany.user = user;
+    createCompany.manager = user;
+    createCompany.administrator = user;
 
     const address = await this._address.findOne(dto.addressId);
     if (address) {
