@@ -1,9 +1,9 @@
-import { CustomBaseEntity } from 'src/base-entity';
+import { AuditableEntity } from 'src/base-entity';
 import { State } from 'src/modules/locate/state/entities/state.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('countries')
-export class Country extends CustomBaseEntity {
+export class Country extends AuditableEntity {
   @Column({ type: 'varchar', length: 100, nullable: false })
   name: string;
 

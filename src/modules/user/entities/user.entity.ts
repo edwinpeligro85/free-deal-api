@@ -1,4 +1,4 @@
-import { CustomBaseEntity } from 'src/base-entity';
+import { AuditableEntity } from 'src/base-entity';
 import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 import { UserRole } from '../enums/user-role.enum';
 import { UserStatus } from '../enums/user-status';
@@ -6,7 +6,7 @@ import { hash } from 'bcrypt';
 import { Gender } from 'src/common/enums/gender.enum';
 
 @Entity('users')
-export class User extends CustomBaseEntity {
+export class User extends AuditableEntity {
   @Column({ name: 'first_name', type: 'varchar', length: 45, nullable: false })
   firstName: string;
 

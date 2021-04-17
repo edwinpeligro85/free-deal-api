@@ -1,4 +1,4 @@
-import { CustomBaseEntity } from 'src/base-entity';
+import { AuditableEntity } from 'src/base-entity';
 import { Address } from 'src/modules/locate/address/entities/address.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
@@ -6,7 +6,7 @@ import { BranchOffice } from '../../branch-office/entities/branch-office.entity'
 import { Employee } from '../../employee/entities/employee.entity';
 
 @Entity('companies')
-export class Company extends CustomBaseEntity {
+export class Company extends AuditableEntity {
 
   @Column({ name: 'business_name', type: 'varchar', length: 192 })
   businessName: string;

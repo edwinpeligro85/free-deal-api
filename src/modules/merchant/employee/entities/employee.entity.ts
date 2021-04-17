@@ -1,11 +1,11 @@
-import { CustomBaseEntity } from 'src/base-entity';
+import { AuditableEntity } from 'src/base-entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { BranchOffice } from '../../branch-office/entities/branch-office.entity';
 import { Company } from '../../company/entities/company.entity';
 
 @Entity('employees')
-export class Employee extends CustomBaseEntity {
+export class Employee extends AuditableEntity {
   @Column({ type: 'varchar', length: 30, nullable: false })
   title: string;
 

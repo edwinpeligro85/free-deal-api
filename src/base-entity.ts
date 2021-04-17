@@ -6,7 +6,7 @@ import {
   BaseEntity,
 } from 'typeorm';
 
-export class CustomBaseEntity extends BaseEntity {
+export class AuditableEntity extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
   id?: number;
 

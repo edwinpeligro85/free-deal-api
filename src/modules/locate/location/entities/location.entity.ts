@@ -1,8 +1,8 @@
-import { CustomBaseEntity } from 'src/base-entity';
+import { AuditableEntity } from 'src/base-entity';
 import { Column, Entity } from 'typeorm';
 
 @Entity('locations')
-export class Location extends CustomBaseEntity {
+export class Location extends AuditableEntity {
   @Column({ type: 'varchar', length: 18 })
   ip: string;
 

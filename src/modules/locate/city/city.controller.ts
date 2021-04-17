@@ -15,7 +15,7 @@ import { City } from './entities/city.entity';
     update: UpdateCityDto,
   },
   routes: {
-    only: ['createOneBase', 'getOneBase', 'getManyBase', 'deleteOneBase'],
+    only: ['createOneBase', 'getOneBase', 'getManyBase', 'deleteOneBase', 'updateOneBase'],
   }
 })
 @ApiTags('Ciudades')
