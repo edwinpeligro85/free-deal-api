@@ -4,6 +4,7 @@ import { User } from 'src/modules/user/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { Company } from '../../company/entities/company.entity';
 import { Employee } from '../../employee/entities/employee.entity';
+import { Product } from '../../product/entities/product.entity';
 
 @Entity('branch_offices')
 export class BranchOffice extends AuditableEntity {
@@ -29,4 +30,7 @@ export class BranchOffice extends AuditableEntity {
     eager: true,
   })
   employees: Employee[];
+  
+  @OneToMany(() => Product, (product) => product.branchOffice, { eager: true })
+  products: Product[];
 }

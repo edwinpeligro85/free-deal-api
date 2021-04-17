@@ -1,6 +1,7 @@
 import { AuditableEntity } from 'src/base-entity';
 import { Status } from 'src/common/enums/status.enum';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { Product } from '../../product/entities/product.entity';
 
 @Entity('categories')
 export class Category extends AuditableEntity {
@@ -23,4 +24,7 @@ export class Category extends AuditableEntity {
   status: Status;
 
   categories?: Category[];
+
+  @OneToMany(() => Product, (product) => product.category)
+  products: Product[];
 }
