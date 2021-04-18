@@ -3,14 +3,21 @@ import { Status } from 'src/common/enums/status.enum';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { BranchOffice } from '../../branch-office/entities/branch-office.entity';
 import { Category } from '../../category/entities/category.entity';
+import { Company } from '../../company/entities/company.entity';
 import { ModifierGroup } from './modifier-group.entity';
 
 @Entity('products')
 export class Product extends AuditableEntity {
+  @Column()
+  entityId: number;
+
+  @Column()
+  entityType: string;
+
   @Column({ type: 'varchar', length: '45' })
   name: string;
 
-  @Column({ name: 'full_name', type: 'varchar', length: '64' })
+  @Column({ name: 'full_name', type: 'varchar', length: '64', nullable: true })
   fullName: string;
 
   @Column({ type: 'text', nullable: true })
@@ -22,8 +29,8 @@ export class Product extends AuditableEntity {
   @ManyToOne(() => Category, (category) => category.products, { eager: true })
   category: Category;
 
-  @ManyToOne(() => BranchOffice, (branchOffice) => branchOffice.products)
-  branchOffice: BranchOffice;
+  @ManyToOne(() => Company, (company) => company.products)
+  company: Company;
 
   @Column({
     type: 'enum',

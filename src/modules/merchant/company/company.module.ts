@@ -10,5 +10,6 @@ import { AddressModule } from 'src/modules/locate/address/address.module';
   imports: [TypeOrmModule.forFeature([Company]), UserModule, AddressModule],
   controllers: [CompanyController],
   providers: [CompanyService],
+  exports: [CompanyService],
 })
 export class CompanyModule {}

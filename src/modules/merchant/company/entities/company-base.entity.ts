@@ -7,7 +7,7 @@ import { Employee } from '../../employee/entities/employee.entity';
 import { Product } from '../../product/entities/product.entity';
 
 @Entity('companies')
-export class Company extends AuditableEntity {
+export class CompanyBase extends AuditableEntity {
 
   @Column({ name: 'business_name', type: 'varchar', length: 192 })
   businessName: string;

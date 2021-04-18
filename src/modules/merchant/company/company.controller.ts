@@ -25,7 +25,7 @@ import { Company } from './entities/company.entity';
         Auth({
           resource: AppResource.COMPANY,
           action: 'read',
-          possession: 'own',
+          possession: 'any',
         }),
       ],
     },
@@ -55,6 +55,16 @@ import { Company } from './entities/company.entity';
           possession: 'own',
         }),
       ],
+    },
+  },
+  query: {
+    join: {
+      branch_offices: {
+        eager: true,
+      },
+      products: {
+        eager: true,
+      }
     },
   },
 })

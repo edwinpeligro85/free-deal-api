@@ -31,6 +31,9 @@ export class BranchOffice extends AuditableEntity {
   })
   employees: Employee[];
   
-  @OneToMany(() => Product, (product) => product.branchOffice, { eager: true })
+  // @PolymorphicChildren(() => Product, {
+    //   eager: true,
+    // })
+  // @OneToMany(() => Product, (product) => product.branchOffice, { eager: true })
   products: Product[];
 }
