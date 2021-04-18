@@ -4,7 +4,7 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Modifier } from './modifier.entity';
 import { Product } from './product.entity';
 
-@Entity('modifier-groups')
+@Entity('modifier_groups')
 export class ModifierGroup extends AuditableEntity {
   @Column({ type: 'varchar', length: '45' })
   name: string;

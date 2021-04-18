@@ -3,12 +3,12 @@ import { CrudValidationGroups } from '@nestjsx/crud';
 import { IsInt, isInt, IsOptional, IsPhoneNumber } from 'class-validator';
 
 export class CreateCompanyDto {
-  @ApiProperty({
-    description: 'Id de Usuario a quien pertenece la empresa',
-    example: 1,
-  })
-  @IsInt()
-  userId: number;
+  // @ApiProperty({
+  //   description: 'Id de Usuario a quien pertenece la empresa',
+  //   example: 1,
+  // })
+  // @IsInt()
+  // userId: number;
 
   @ApiProperty({
     required: true,

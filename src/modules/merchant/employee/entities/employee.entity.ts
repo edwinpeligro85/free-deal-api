@@ -1,8 +1,7 @@
 import { AuditableEntity } from 'src/base-entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
-import { BranchOffice } from '../../branch-office/entities/branch-office.entity';
-import { Company } from '../../company/entities/company.entity';
+import { CompanyBase } from '../../company/entities/company-base.entity';
 
 @Entity('employees')
 export class Employee extends AuditableEntity {
@@ -16,13 +15,8 @@ export class Employee extends AuditableEntity {
   @JoinColumn()
   me: User;
 
-  @ManyToOne(() => Company, (company) => company.employees, {
+  @ManyToOne(() => CompanyBase, (company) => company.employees, {
     nullable: true,
   })
-  company: Company;
-
-  @ManyToOne(() => BranchOffice, (branchOffice) => branchOffice.employees, {
-    nullable: true,
-  })
-  branchOffice: BranchOffice;
+  company: CompanyBase;
 }

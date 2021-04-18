@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Post, Request, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { Response } from 'express';
@@ -81,9 +81,10 @@ export class CompanyController implements CrudController<Company> {
   })
   async create(
     @Res() res: Response,
+    @Request() req,
     @Body() createCompanyDto: CreateCompanyDto,
   ) {
-    const create = await this.service.create(createCompanyDto);
+    const create = await this.service.create(createCompanyDto, req.user);
 
     if (!create.manager)
       return CustomResponse.FailedResponse(

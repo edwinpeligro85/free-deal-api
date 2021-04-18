@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CrudHelper } from 'src/crud-helper';
 import { AddressService } from 'src/modules/locate/address/address.service';
+import { User } from 'src/modules/user/entities/user.entity';
 import { UserService } from 'src/modules/user/user.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { Company } from './entities/company.entity';
@@ -16,10 +17,9 @@ export class CompanyService extends CrudHelper<Company> {
     super(repo);
   }
 
-  async create(dto: CreateCompanyDto) {
+  async create(dto: CreateCompanyDto, user: User) {
     const company = new Company();
 
-    const user = await this._user.findOne(dto.userId);
     if (!user) return company;
 
     const createCompany = Object.assign(company, dto);
