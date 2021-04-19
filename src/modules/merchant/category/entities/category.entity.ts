@@ -1,19 +1,11 @@
 import { AuditableEntity } from 'src/base-entity';
 import { Status } from 'src/common/enums/status.enum';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, Tree, TreeChildren, TreeParent } from 'typeorm';
 import { Product } from '../../product/entities/product.entity';
 
 @Entity('categories')
+@Tree('closure-table')
 export class Category extends AuditableEntity {
-  @Column({ name: 'parent_id', type: 'int', default: 0, nullable: true })
-  parentId: number;
-
-  @Column({ type: 'varchar', length: 100, unique: true })
-  name: string;
-
-  @Column({ type: 'text', nullable: true })
-  description?: string;
-
   @Column({
     type: 'enum',
     enum: Status,
@@ -23,7 +15,17 @@ export class Category extends AuditableEntity {
   })
   status: Status;
 
-  categories?: Category[];
+  @Column({ type: 'varchar', length: 100, unique: true })
+  name: string;
+
+  @Column({ type: 'text', nullable: true })
+  description?: string;
+
+  @TreeChildren()
+  children: Category[];
+
+  @TreeParent()
+  parent: Category;
 
   @OneToMany(() => Product, (product) => product.category)
   products: Product[];

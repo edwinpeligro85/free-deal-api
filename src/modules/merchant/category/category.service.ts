@@ -1,24 +1,54 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository, InjectEntityManager } from '@nestjs/typeorm';
+import { CrudRequest } from '@nestjsx/crud';
+import { DeepPartial } from 'typeorm';
 import { CrudHelper } from 'src/crud-helper';
+import { CreateCategoryDto } from './dto/create-category.dto';
 import { Category } from './entities/category.entity';
 
 @Injectable()
 export class CategoryService extends CrudHelper<Category> {
-  constructor(@InjectRepository(Category) repo) {
+
+  private treeRepo;
+
+  constructor(
+    @InjectRepository(Category) repo,
+    @InjectEntityManager() manager
+  ) {
     super(repo);
+    this.treeRepo = manager.getTreeRepository(Category);
   }
 
-  async getCategoryTree($parentId?: number) {
-    const categories = await this.find({ where: { parentId: $parentId ?? 0, status: 1 }, order: { name: 'ASC' } });
+  async createOne(req: CrudRequest, dto: DeepPartial<CreateCategoryDto>): Promise<Category> {
+    const parent: Category = await this.findOne(dto.parentId ?? 0);
 
-    if (categories?.length > 0) {
-      for (let index = 0; index < categories.length; index++) {
-        const category = categories[index];
-        categories[index].categories = await this.getCategoryTree(category.id);
-      }
+    // Se eliminan atributos inecesarios
+    delete dto.parentId;
+    
+    const category = Object.assign(new Category(), dto);
+
+    if (parent) {
+      category.parent = parent;
     }
 
-    return categories;
+    return await category.save();
+  }
+
+  async getCategoryTree() {
+    return await this.treeRepo.findTrees();
+  }
+
+  async getCategoryDescendants(id: number, tree: boolean) {
+    const parent: Category = await this.findOne(id);
+
+    if (tree) {
+      return await this.treeRepo.findDescendantsTree(parent)
+    }
+
+    return await this.treeRepo.findDescendants(parent);
+  }
+
+  async getCategoryTreeRoots() {
+    return await this.treeRepo.findRoots();
   }
 }
