@@ -16,7 +16,14 @@ import { ApiTags } from '@nestjs/swagger';
   },
   routes: {
     only: ['createOneBase', 'getOneBase', 'getManyBase', 'deleteOneBase', 'updateOneBase'],
-  }
+  },
+  query: {
+    join: {
+      category: {
+        eager: true,
+      },
+    },
+  },
 })
 @ApiTags('Productos')
 @Controller('product')

@@ -1,5 +1,5 @@
 import { User } from 'src/modules/user/entities/user.entity';
-import { ChildEntity, Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { ChildEntity, Column, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { BranchOffice } from '../../branch-office/entities/branch-office.entity';
 import { CompanyBase } from './company-base.entity';
 
