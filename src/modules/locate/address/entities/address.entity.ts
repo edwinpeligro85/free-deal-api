@@ -40,7 +40,7 @@ export class Address extends AuditableEntity {
   personName: string;
 
   @ManyToOne(() => User, (user) => user.id, { nullable: false })
-  owner: User;
+  owner?: User;
 
   @OneToOne(() => City, { cascade: true, eager: true })
   @JoinColumn()

@@ -10,7 +10,7 @@ import {
 import { Status } from 'src/common/enums/status.enum';
 
 export class CreateCategoryDto {
-  @ApiProperty({ type: 'int', example: 1, default: 0 })
+  @ApiProperty({ type: 'number', example: 1, default: 0 })
   @IsOptional()
   @IsInt()
   parentId: number;
@@ -31,7 +31,7 @@ export class CreateCategoryDto {
   @IsString({ always: true })
   description: string;
 
-  @ApiProperty({ type: 'int', example: 1, default: 1, enum: Status })
+  @ApiProperty({ type: 'number', example: 1, default: 1, enum: Status })
   @IsOptional()
   @IsInt()
   status: Status;

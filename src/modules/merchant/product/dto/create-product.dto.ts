@@ -9,11 +9,9 @@ import {
 } from 'class-validator';
 import { AppResource } from 'src/app.roles';
 import { Status } from 'src/common/enums/status.enum';
-import { BranchOffice } from '../../branch-office/entities/branch-office.entity';
-import { Company } from '../../company/entities/company.entity';
 
 export class CreateProductDto {
-  @ApiProperty({ type: 'int', example: 1, default: 1 })
+  @ApiProperty({ type: 'number', example: 1, default: 1 })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
   @IsInt()
   ownerId: number;
@@ -56,7 +54,7 @@ export class CreateProductDto {
   //   @ManyToOne(() => Category, (category) => category.products, { eager: true })
   //   category: Category;
 
-  @ApiProperty({ type: 'int', example: 1, default: 1, enum: Status })
+  @ApiProperty({ type: 'number', example: 1, default: 1, enum: Status })
   @IsOptional()
   @IsInt()
   status: Status;

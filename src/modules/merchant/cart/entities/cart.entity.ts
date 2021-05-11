@@ -10,5 +10,5 @@ export class Cart extends AuditableEntity {
   @OneToMany(() => ProductToCart, (productsToCart) => productsToCart.cart, {
     eager: true,
   })
-  productsToCart!: ProductToCart[];
+  items!: ProductToCart[];
 }

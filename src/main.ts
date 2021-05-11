@@ -15,6 +15,13 @@ async function bootstrap() {
   // Swagger Documentation API
   initSwagger(app);
 
+  app.enableCors({
+    methods: '*',
+    origin: '*',
+    allowedHeaders: '*',
+    credentials: false
+  });
+
   await app.listen(_config.get(Configuration.PORT));
   
   logger.log(`App is running on ${await app.getUrl()}`);

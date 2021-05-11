@@ -11,6 +11,9 @@ export class Modifier extends AuditableEntity {
   @Column({ type: 'double', default: 0 })
   price: number;
 
+  @Column({ type: 'boolean', default: false })
+  multiple: boolean;
+
   @ManyToOne(() => ModifierGroup, (modifierGroup) => modifierGroup.modifiers)
   modifierGroup: ModifierGroup;
 

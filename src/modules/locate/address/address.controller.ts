@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req, BadRequestException } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { UseRoles } from 'nest-access-control';
+import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { AppResource } from 'src/app.roles';
 import { Auth } from 'src/common/decorators';
 import { AddressService } from './address.service';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
+import { Address } from './entities/address.entity';
 
 @ApiTags('Direcciones')
 @Controller('address')
@@ -13,6 +13,10 @@ export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
   @Post()
+  @ApiCreatedResponse({
+    description: 'The record has been successfully created.',
+    type: Address,
+  })
   create(
     @Body() createAddressDto: CreateAddressDto,
     @Req() req: any

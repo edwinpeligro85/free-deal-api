@@ -1,7 +1,6 @@
 import { AuditableEntity } from 'src/base-entity';
 import { Status } from 'src/common/enums/status.enum';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { ProductToCart } from '../../cart/entities/products-to-cart.entity';
 import { Category } from '../../category/entities/category.entity';
 import { CompanyBase } from '../../company/entities/company-base.entity';
 import { ModifierGroup } from './modifier-group.entity';
@@ -34,9 +33,6 @@ export class Product extends AuditableEntity {
 
   @ManyToOne(() => CompanyBase, (company) => company.products)
   company: CompanyBase;
-
-  @OneToMany(() => ProductToCart, productsToCart => productsToCart.product)
-  productsToCart!: ProductToCart[];
 
   @Column({
     type: 'enum',

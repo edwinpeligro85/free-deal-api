@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository, InjectEntityManager } from '@nestjs/typeorm';
 import { CrudRequest } from '@nestjsx/crud';
-import { DeepPartial } from 'typeorm';
+import { DeepPartial, TreeRepository } from 'typeorm';
 import { CrudHelper } from 'src/crud-helper';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { Category } from './entities/category.entity';
@@ -9,7 +9,7 @@ import { Category } from './entities/category.entity';
 @Injectable()
 export class CategoryService extends CrudHelper<Category> {
 
-  private treeRepo;
+  private treeRepo: TreeRepository<Category>;
 
   constructor(
     @InjectRepository(Category) repo,

@@ -9,9 +9,12 @@ import { AppResource } from 'src/app.roles';
 import { BranchOffice } from '../branch-office/entities/branch-office.entity';
 import { CrudHelper } from 'src/crud-helper';
 import { Modifier } from './entities/modifier.entity';
+import { CreateModifierDto } from './dto/create-modifier.dto';
+import { ModifierGroup } from './entities/modifier-group.entity';
 
 @Injectable()
 export class ProductService extends CrudHelper<Product> {
+  private groupRepo: Repository<ModifierGroup>;
   private modifierRepo: Repository<Modifier>;
 
   constructor(
@@ -54,5 +57,18 @@ export class ProductService extends CrudHelper<Product> {
 
   async getModifiersById(id: number): Promise<Modifier> {
     return await this.modifierRepo.findOne(id, { where: { status: 1 } });
+  }
+
+  async addModifiersByGroupId(id: number, dto: CreateModifierDto): Promise<ModifierGroup> {
+    const modifier =  await this.modifierRepo.findOneOrFail(dto.modifierId, { where: { status: 1 } });
+    const group = await this.groupRepo.findOneOrFail(id, { where: { status: 1 } });
+
+    group.modifiers = [...group.modifiers, modifier];
+
+    return group.save();
+  }
+
+  createGroup() {
+    
   }
 }

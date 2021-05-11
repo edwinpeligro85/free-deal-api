@@ -1,7 +1,15 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiExtraModels,
+  ApiOkResponse,
+  ApiResponse,
+  ApiTags,
+  getSchemaPath,
+} from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { CategoryService } from './category.service';
+import { CategoryResponseDto } from './dto/category-response.dto';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Category } from './entities/category.entity';
@@ -15,10 +23,17 @@ import { Category } from './entities/category.entity';
     update: UpdateCategoryDto,
   },
   routes: {
-    only: ['createOneBase', 'getOneBase', 'getManyBase', 'deleteOneBase', 'updateOneBase'],
-  }
+    only: [
+      'createOneBase',
+      'getOneBase',
+      'getManyBase',
+      'deleteOneBase',
+      'updateOneBase',
+    ],
+  },
 })
 @ApiTags('Categorias')
+@ApiExtraModels(CategoryResponseDto)
 @Controller('category')
 export class CategoryController implements CrudController<Category> {
   constructor(public readonly service: CategoryService) {}
@@ -33,13 +48,21 @@ export class CategoryController implements CrudController<Category> {
     return this.service.getCategoryDescendants(+id, false);
   }
 
+  // @ApiBody({
+  //   schema: {
+  //     type: 'array',
+  //     items: {
+  //       $ref: getSchemaPath(Category),
+  //     },
+  //   },
+  // })
   @Get('tree')
-  getTreeMains() {
+  getTreeMains(): Promise<Category[]> {
     return this.service.getCategoryTree();
   }
 
   @Get('tree/roots')
-  getCategoryTreeRoots() {
+  getCategoryTreeRoots(): Promise<Category[]> {
     return this.service.getCategoryTreeRoots();
   }
 }
