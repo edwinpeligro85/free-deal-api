@@ -1,9 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { CreateUserDto } from '../user/dto/create-user.dto';
+import { RegistrationStatus } from './interfaces/registration-status.interface';
+import { LoginStatus } from './interfaces/login-status.interface';
 
 @Injectable()
 export class AuthService {
@@ -12,27 +15,66 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  async register(userDto: CreateUserDto): Promise<RegistrationStatus> {
+    let status: RegistrationStatus = {
+      success: true,
+      message: 'user registered',
+      user: null,
+    };
+
+    try {
+      status.user = await this._user.create(userDto);
+    } catch (err) {
+      status = {
+        success: false,
+        message: err,
+        user: null,
+      };
+    }
+    return status;
+  }
+
   async validateUser(
     email: string,
     pass: string,
-  ): Promise<Partial<User> | null> {
+  ): Promise<{ user: Partial<User>; message: HttpException }> {
     const user = await this._user.findOneByEmail(email);
 
-    if (user && (await compare(pass, user.password))) {
-      const { password, ...result } = user;
-
-      return result;
+    if (!user) {
+      return {
+        user: null,
+        message: new HttpException('User not found', HttpStatus.UNAUTHORIZED),
+      };
     }
 
-    return null;
+    const areEqual = await compare(pass, user.password);
+
+    if (!areEqual) {
+      return {
+        user: null,
+        message: new HttpException(
+          'Invalid credentials',
+          HttpStatus.UNAUTHORIZED,
+        ),
+      };
+    }
+
+    const { password, ...result } = user;
+
+    return { user: result, message: null };
   }
 
-  async login(user: User) {
-    const payload: JwtPayload = { email: user.email, sub: user.id };
+  async login(user: User): Promise<LoginStatus> {
+    const { password, ...result } = user;
 
     return {
-      user,
-      accessToken: this.jwtService.sign(payload),
+      user: result,
+      accessToken: this.createToken(user),
     };
+  }
+
+  createToken(user: User): string {
+    const payload: JwtPayload = { email: user.email, sub: user.id };
+    return this.jwtService.sign(payload);
   }
 }

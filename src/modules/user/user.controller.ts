@@ -17,7 +17,6 @@ import { Auth } from 'src/common/decorators';
   },
   routes: {
     only: [
-      'createOneBase',
       'getOneBase',
       'getManyBase',
       'deleteOneBase',
