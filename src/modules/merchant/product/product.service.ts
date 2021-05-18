@@ -11,6 +11,8 @@ import { CrudHelper } from 'src/crud-helper';
 import { Modifier } from './entities/modifier.entity';
 import { CreateModifierDto } from './dto/create-modifier.dto';
 import { ModifierGroup } from './entities/modifier-group.entity';
+import { CategoryService } from '../category/category.service';
+import { CreateModifierGroupDto } from './dto/create-modifier-group.dto';
 
 @Injectable()
 export class ProductService extends CrudHelper<Product> {
@@ -21,9 +23,11 @@ export class ProductService extends CrudHelper<Product> {
     @InjectRepository(Product) repo,
     @InjectEntityManager() manager,
     private readonly _company: CompanyService,
+    private readonly _category: CategoryService
   ) {
     super(repo);
     this.modifierRepo = manager.getRepository(Modifier);
+    this.groupRepo = manager.getRepository(ModifierGroup);
   }
 
   async createOne(
@@ -51,6 +55,7 @@ export class ProductService extends CrudHelper<Product> {
     const product = Object.assign(new Product(), dto);
     product.entityId = entityId;
     product.entityType = entityType;
+    product.category = await this._category.findOne(dto.categoryId);
 
     return await product.save();
   }
@@ -59,16 +64,23 @@ export class ProductService extends CrudHelper<Product> {
     return await this.modifierRepo.findOne(id, { where: { status: 1 } });
   }
 
-  async addModifiersByGroupId(id: number, dto: CreateModifierDto): Promise<ModifierGroup> {
-    const modifier =  await this.modifierRepo.findOneOrFail(dto.modifierId, { where: { status: 1 } });
-    const group = await this.groupRepo.findOneOrFail(id, { where: { status: 1 } });
+  async addModifiersByGroupId(dto: CreateModifierDto): Promise<ModifierGroup> {
+    const group = await this.groupRepo.findOneOrFail(dto.groupId, { where: {status: 1} });
 
-    group.modifiers = [...group.modifiers, modifier];
+    const modifier = Object.assign(new Modifier(), dto);
+    await modifier.save();
+
+    group.modifiers = group.modifiers ? [...group?.modifiers, modifier] : [modifier];
 
     return group.save();
   }
 
-  createGroup() {
-    
+  async createModifierGroup(dto: CreateModifierGroupDto): Promise<ModifierGroup> {
+    const product = await this.repo.findOneOrFail(dto.productId, { where: {status: 1} });
+    const group = new ModifierGroup();
+    group.product = product;
+    group.name = dto.name;
+
+    return group.save();
   }
 }

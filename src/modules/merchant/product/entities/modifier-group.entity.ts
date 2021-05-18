@@ -9,7 +9,7 @@ export class ModifierGroup extends AuditableEntity {
   @Column({ type: 'varchar', length: '45' })
   name: string;
 
-  @OneToMany(() => Modifier, (modifier) => modifier.modifierGroup)
+  @OneToMany(() => Modifier, (modifier) => modifier.modifierGroup, { eager: true })
   modifiers: Modifier[];
 
   @ManyToOne(() => Product, (product) => product.modifierGroups)
