@@ -16,6 +16,11 @@ export class CreateProductDto {
   @IsInt()
   ownerId: number;
 
+  @ApiProperty({ type: 'number', example: 1, default: 1 })
+  @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
+  @IsInt()
+  categoryId: number;
+
   // entityId: number;
 
   // entityType: string;

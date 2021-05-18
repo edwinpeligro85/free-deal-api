@@ -25,7 +25,7 @@ export class Product extends AuditableEntity {
   @Column({ type: 'double', default: 0 })
   price: number;
 
-  @OneToMany(() => ModifierGroup, (modifierGroup) => modifierGroup.product)
+  @OneToMany(() => ModifierGroup, (modifierGroup) => modifierGroup.product, { eager: true })
   modifierGroups: ModifierGroup[];
 
   @ManyToOne(() => Category, (category) => category.products, { eager: true })

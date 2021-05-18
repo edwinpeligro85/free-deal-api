@@ -6,6 +6,7 @@ import { Product } from './entities/product.entity';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateModifierDto } from './dto/create-modifier.dto';
+import { CreateModifierGroupDto } from './dto/create-modifier-group.dto';
 
 @Crud({
   model: {
@@ -23,10 +24,7 @@ import { CreateModifierDto } from './dto/create-modifier.dto';
       category: {
         eager: true,
       },
-      modifierGroups: {
-        eager: true,
-      },
-    },
+    }
   },
 })
 @ApiTags('Productos')
@@ -34,12 +32,19 @@ import { CreateModifierDto } from './dto/create-modifier.dto';
 export class ProductController implements CrudController<Product> {
   constructor(public readonly service: ProductService) {}
 
-  @Post('/modifier/:id')
+  @Post('/modifier')
   createModifier(
     @Body() createModifierDto: CreateModifierDto,
-    @Req() req: any,
-    @Param('id') id: string
+    @Req() req: any
   ) {
-    return this.service.addModifiersByGroupId(+id, createModifierDto);
+    return this.service.addModifiersByGroupId(createModifierDto);
   }
+
+  @Post('/group')
+  createModifierGroup(
+    @Body() createModifierGroupDto: CreateModifierGroupDto,
+  ) {
+    return this.service.createModifierGroup(createModifierGroupDto);
+  }
+
 }
