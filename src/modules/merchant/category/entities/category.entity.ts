@@ -15,7 +15,6 @@ import {
   TreeParent,
 } from 'typeorm';
 import { Product } from '../../product/entities/product.entity';
-import { CategoryResponseDto } from '../dto/category-response.dto';
 
 @Entity('categories')
 @Tree('closure-table')

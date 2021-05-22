@@ -20,7 +20,7 @@ export class CreateStateDto {
   @ApiProperty({ type: 'number', example: 1 })
   @NotEquals(null)
   @IsNotEmpty({
-    groups: [CrudValidationGroups.CREATE, CrudValidationGroups.UPDATE],
+    groups: [CrudValidationGroups.CREATE],
   })
   @IsInt({ always: true })
   countryId: number;

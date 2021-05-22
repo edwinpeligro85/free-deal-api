@@ -18,14 +18,37 @@ import { Country } from './entities/country.entity';
     update: UpdateCountryDto,
   },
   routes: {
-    only: ['createOneBase', 'getOneBase', 'getManyBase', 'deleteOneBase'],
+    only: [
+      'createOneBase',
+      'getOneBase',
+      'getManyBase',
+      'deleteOneBase',
+      'updateOneBase',
+    ],
     createOneBase: {
       decorators: [
-        Auth(),
-        UseRoles({
+        Auth({
           resource: AppResource.COUNTRY,
           action: 'create',
-          possession: 'any'
+          possession: 'any',
+        }),
+      ],
+    },
+    updateOneBase: {
+      decorators: [
+        Auth({
+          resource: AppResource.COUNTRY,
+          action: 'update',
+          possession: 'any',
+        }),
+      ],
+    },
+    deleteOneBase: {
+      decorators: [
+        Auth({
+          resource: AppResource.COUNTRY,
+          action: 'delete',
+          possession: 'any',
         }),
       ],
     },

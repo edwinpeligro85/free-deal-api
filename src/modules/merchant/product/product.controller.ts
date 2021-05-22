@@ -24,6 +24,12 @@ import { CreateModifierGroupDto } from './dto/create-modifier-group.dto';
       category: {
         eager: true,
       },
+      modifierGroups: {
+        eager: true,
+      },
+      'modifierGroups.modifiers': {
+        eager: true,
+      },
     }
   },
 })

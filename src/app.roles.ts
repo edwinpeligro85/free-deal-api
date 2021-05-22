@@ -9,7 +9,8 @@ export enum AppResource {
   ADDRESS = 'addresses',
   LOCATION = 'locations',
   COMPANY = 'companies',
-  BRANCH_OFFICE = 'branch_offices'
+  BRANCH_OFFICE = 'branch_offices',
+  PRODUCTS = 'products'
 }
 
 export const roles: RolesBuilder = new RolesBuilder();
@@ -23,3 +24,6 @@ roles
     .readAny([AppResource.COMPANY])
     .readOwn([AppResource.BRANCH_OFFICE])
     .createOwn([AppResource.COMPANY, AppResource.BRANCH_OFFICE])
+  .grant(UserRole.SUPER_USER)
+    .extend(UserRole.MERCHANT)
+    .create([AppResource.COUNTRY, AppResource.STATE, AppResource.CITY])
