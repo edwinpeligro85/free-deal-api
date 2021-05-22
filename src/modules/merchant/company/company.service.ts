@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CrudHelper } from 'src/crud-helper';
 import { AddressService } from 'src/modules/locate/address/address.service';
 import { User } from 'src/modules/user/entities/user.entity';
+import { UserRole } from 'src/modules/user/enums/user-role.enum';
 import { UserService } from 'src/modules/user/user.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { Company } from './entities/company.entity';
@@ -32,5 +33,14 @@ export class CompanyService extends CrudHelper<Company> {
     }
 
     return await createCompany.save();
+  }
+
+  async getMe(user: User): Promise<Company> {
+    switch (user.role) {
+      case UserRole.MERCHANT:
+        return this.repo.findOneOrFail({ where: { manager: user.id } });
+      case UserRole.ADMINISTRATOR:
+        return this.repo.findOneOrFail({ where: { administrator: user.id } });
+    }
   }
 }

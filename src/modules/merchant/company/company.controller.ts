@@ -1,12 +1,23 @@
-import { Body, Controller, HttpStatus, Post, Request, Res } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Post,
+  Request,
+  Res,
+} from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController } from '@nestjsx/crud';
 import { Response } from 'express';
 import { AppResource } from 'src/app.roles';
 import { Auth } from 'src/common/decorators';
 import { CustomResponse } from 'src/common/utils/custom-response';
+import { User } from 'src/modules/user/entities/user.entity';
+import { UserRole } from 'src/modules/user/enums/user-role.enum';
 import { CompanyService } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
+import { ResponseCreateCompanyDto, ResponseMeCompanyDto } from './dto/response-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { Company } from './entities/company.entity';
 
@@ -20,24 +31,6 @@ import { Company } from './entities/company.entity';
   },
   routes: {
     only: ['getOneBase', 'getManyBase', 'updateOneBase', 'deleteOneBase'],
-    getOneBase: {
-      decorators: [
-        Auth({
-          resource: AppResource.COMPANY,
-          action: 'read',
-          possession: 'any',
-        }),
-      ],
-    },
-    getManyBase: {
-      decorators: [
-        Auth({
-          resource: AppResource.COMPANY,
-          action: 'read',
-          possession: 'any',
-        }),
-      ],
-    },
     updateOneBase: {
       decorators: [
         Auth({
@@ -64,7 +57,7 @@ import { Company } from './entities/company.entity';
       },
       products: {
         eager: true,
-      }
+      },
     },
   },
 })
@@ -74,6 +67,7 @@ export class CompanyController implements CrudController<Company> {
   constructor(public readonly service: CompanyService) {}
 
   @Post()
+  @ApiResponse({status: 201, type: ResponseCreateCompanyDto, description: 'Create Company'})
   @Auth({
     resource: AppResource.COMPANY,
     action: 'create',
@@ -95,5 +89,34 @@ export class CompanyController implements CrudController<Company> {
       );
 
     return CustomResponse.SuccessResponse(res, HttpStatus.CREATED, create);
+  }
+
+  @Get('/me')
+  @ApiResponse({status: 200, type: ResponseMeCompanyDto, description: 'Return Company'})
+  @Auth({
+    resource: AppResource.COMPANY,
+    action: 'read',
+    possession: 'any',
+  })
+  async me(@Res() res: Response, @Request() req) {
+    const user: User = req.user;
+
+    if (
+      ![UserRole.SUPER_USER, UserRole.MERCHANT, UserRole.ADMINISTRATOR].includes(
+        user.role as any,
+      )
+    ) {
+      return CustomResponse.FailedResponse(
+        res,
+        HttpStatus.FORBIDDEN,
+        'company',
+      );
+    }
+
+    return CustomResponse.SuccessResponse<Company>(
+      res,
+      HttpStatus.OK,
+      await this.service.getMe(user)
+    );
   }
 }

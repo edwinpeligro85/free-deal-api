@@ -2,6 +2,7 @@ import { applyDecorators, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiForbiddenResponse,
+  ApiOkResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { ACGuard, Role, UseRoles } from 'nest-access-control';

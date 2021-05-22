@@ -31,6 +31,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     const { role, password, ...result } = user;
 
-    return { roles: [role], ...result };
+    return { roles: [role], role, ...result };
   }
 }
