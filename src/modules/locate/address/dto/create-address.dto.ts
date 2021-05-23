@@ -57,4 +57,10 @@ export class CreateAddressDto {
         example: 1
     })
     ownerId: number;
+
+    @ApiProperty({
+        description: "Id de la ciudad",
+        example: 1
+    })
+    cityId: number;
 }

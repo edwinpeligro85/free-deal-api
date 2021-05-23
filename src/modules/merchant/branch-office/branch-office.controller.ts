@@ -1,5 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AppResource } from 'src/app.roles';
+import { Auth } from 'src/common/decorators';
+import { User } from 'src/modules/user/entities/user.entity';
 import { BranchOfficeService } from './branch-office.service';
 import { CreateBranchOfficeDto } from './dto/create-branch-office.dto';
 import { UpdateBranchOfficeDto } from './dto/update-branch-office.dto';
@@ -8,6 +11,18 @@ import { UpdateBranchOfficeDto } from './dto/update-branch-office.dto';
 @Controller('branch-office')
 export class BranchOfficeController {
   constructor(private readonly branchOfficeService: BranchOfficeService) {}
+
+  @Get('/me')
+  @Auth({
+    resource: AppResource.BRANCH_OFFICE,
+    action: 'read',
+    possession: 'own',
+  })
+  async me(@Request() req) {
+    const user: User = req.user;
+
+    return await this.branchOfficeService.getMe(user);
+  }
 
   @Post()
   create(@Body() createBranchOfficeDto: CreateBranchOfficeDto) {

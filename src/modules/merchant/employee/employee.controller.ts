@@ -4,7 +4,9 @@ import { CreateEmployeeDto } from './dto/create-employee.dto';
 import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Auth } from 'src/common/decorators';
 import { AppResource } from 'src/app.roles';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Empleados')
 @Controller('employee')
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
@@ -25,7 +27,7 @@ export class EmployeeController {
     possession: 'own',
     resource: AppResource.EMPLOYEE
   })
-  @Get(':id')
+  @Get('company/:id')
   findAll(@Param('id') id: string) {
     return this.employeeService.findAll(+id);
   }

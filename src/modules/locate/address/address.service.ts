@@ -17,19 +17,19 @@ export class AddressService {
     private readonly _location: LocationService
   ) {}
 
-  async create(createAddressDto: CreateAddressDto, ip?: string) {
-    const user = await this._user.findOne(createAddressDto.ownerId);
+  async create(dto: CreateAddressDto, ip?: string) {
+    const address = Object.assign(new Address(), dto);
 
-    if (!user) return new BadRequestException(`No hay usuario con el id ${createAddressDto.ownerId}`);
+    if (dto.ownerId) {
+      const user = await this._user.findOne(dto.ownerId);
+      if (!user) return new BadRequestException(`No hay usuario con el id ${dto.ownerId}`);
+      address.owner = user;
+    }
 
     const location = await this._location.create( ip );
-    const address = new Address();
     address.location = location;
-
-    const createAddress = Object.assign(address, createAddressDto);
-    createAddress.owner = user;
     
-    return await this.addressRepository.save(createAddress);
+    return await address.save();
   }
 
   async findAll() {

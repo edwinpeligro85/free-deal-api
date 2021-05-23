@@ -16,7 +16,7 @@ export class Address extends AuditableEntity {
   @Column({ name: 'side_line', type: 'int' })
   sideLine: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', nullable: true })
   site: number;
 
   @Column({
@@ -30,13 +30,18 @@ export class Address extends AuditableEntity {
   @Column({ type: 'varchar', length: 45, nullable: true })
   neighborhood: string;
 
-  @Column({ name: 'property_type', type: 'enum', enum: PropertyType })
+  @Column({
+    name: 'property_type',
+    type: 'enum',
+    enum: PropertyType,
+    default: PropertyType.Casa,
+  })
   propertyType: PropertyType;
 
   @Column({ type: 'varchar', length: 15, nullable: true })
   phone: string;
 
-  @Column({ name: 'person_name', type: 'varchar', length: 55 })
+  @Column({ name: 'person_name', type: 'varchar', length: 55, nullable: true })
   personName: string;
 
   @ManyToOne(() => User, (user) => user.id, { nullable: false })

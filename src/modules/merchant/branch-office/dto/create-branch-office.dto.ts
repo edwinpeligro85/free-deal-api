@@ -1,21 +1,21 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { CrudValidationGroups } from "@nestjsx/crud";
-import { IsInt, IsOptional, IsPhoneNumber } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { CrudValidationGroups } from '@nestjsx/crud';
+import { IsInt, IsOptional, IsPhoneNumber } from 'class-validator';
 
 export class CreateBranchOfficeDto {
   @ApiProperty({
-    description: 'Id de Usuario a quien pertenece la empresa',
+    description: 'Id de Usuario administrador',
     example: 1,
   })
   @IsInt()
-  userId: number;
+  adminId: number;
 
   @ApiProperty({
-    required: true,
-    maxLength: 192,
-    example: 'El Colombiano Hambriento',
+    description: 'Id de la empresa principal',
+    example: 1,
   })
-  businessName: string;
+  @IsInt()
+  companyId: number;
 
   @ApiProperty({
     required: false,
@@ -28,16 +28,6 @@ export class CreateBranchOfficeDto {
   })
   @IsPhoneNumber('CO')
   businessPhone?: string;
-
-  @ApiProperty({
-    required: false,
-    minLength: 6,
-    maxLength: 15,
-    example: '12,449,965-4',
-  })
-  nit?: string;
-
-  // brand?: string;
 
   @ApiProperty({
     required: false,
