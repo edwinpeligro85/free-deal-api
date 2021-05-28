@@ -7,9 +7,6 @@ import { CompanyBase } from './company-base.entity';
 @ChildEntity()
 export class Company extends CompanyBase {
 
-  @Column({ name: 'business_name', type: 'varchar', length: 192 })
-  businessName: string;
-
   @Column({ type: 'varchar', length: 15, nullable: true })
   nit?: string;
 

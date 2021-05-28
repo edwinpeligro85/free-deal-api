@@ -29,9 +29,9 @@ export class BranchOfficeController {
     return this.branchOfficeService.create(createBranchOfficeDto);
   }
 
-  @Get()
-  findAll() {
-    return this.branchOfficeService.findAll();
+  @Get('company/:id')
+  findAll(@Param('id') id: string) {
+    return this.branchOfficeService.findAll(+id);
   }
 
   @Get(':id')

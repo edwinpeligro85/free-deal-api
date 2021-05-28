@@ -4,9 +4,10 @@ import { CartController } from './cart.controller';
 import { Cart } from './entities/cart.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductModule } from '../product/product.module';
+import { ProductToCart } from './entities/products-to-cart.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Cart]), ProductModule],
+  imports: [TypeOrmModule.forFeature([Cart, ProductToCart]), ProductModule],
   controllers: [CartController],
   providers: [CartService]
 })

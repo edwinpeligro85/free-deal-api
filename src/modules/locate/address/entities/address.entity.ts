@@ -44,7 +44,7 @@ export class Address extends AuditableEntity {
   @Column({ name: 'person_name', type: 'varchar', length: 55, nullable: true })
   personName: string;
 
-  @ManyToOne(() => User, (user) => user.id, { nullable: false })
+  @ManyToOne(() => User, (user) => user.id, { nullable: true })
   owner?: User;
 
   @OneToOne(() => City, { cascade: true, eager: true })

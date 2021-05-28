@@ -50,13 +50,13 @@ export class CreateAddressDto {
     @ApiProperty({
         example: 'Jhon Doe'
     })
-    personName: string;
+    personName?: string;
 
     @ApiProperty({
         description: "Id de Usuario o Comercio a quien pertenece",
         example: 1
     })
-    ownerId: number;
+    ownerId?: number;
 
     @ApiProperty({
         description: "Id de la ciudad",

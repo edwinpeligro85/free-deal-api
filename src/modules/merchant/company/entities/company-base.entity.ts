@@ -10,6 +10,9 @@ import { Product } from '../../product/entities/product.entity';
 @TableInheritance({column: {type: 'varchar', name: 'type'}})
 export class CompanyBase extends AuditableEntity {
 
+  @Column({ name: 'business_name', type: 'varchar', length: 192 })
+  businessName: string;
+
   @Column({ name: 'business_phone', type: 'varchar', length: 15, nullable: true })
   businessPhone?: string;
 

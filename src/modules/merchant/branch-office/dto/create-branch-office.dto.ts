@@ -4,6 +4,13 @@ import { IsInt, IsOptional, IsPhoneNumber } from 'class-validator';
 
 export class CreateBranchOfficeDto {
   @ApiProperty({
+    required: true,
+    maxLength: 45,
+    example: 'Sede Pereira',
+  })
+  businessName: string;
+
+  @ApiProperty({
     description: 'Id de Usuario administrador',
     example: 1,
   })

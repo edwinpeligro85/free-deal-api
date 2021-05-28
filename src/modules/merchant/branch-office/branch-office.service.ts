@@ -13,15 +13,45 @@ import { BranchOffice } from './entities/branch-office.entity';
 @Injectable()
 export class BranchOfficeService {
   constructor(
-    @InjectRepository(BranchOffice) private readonly repo: Repository<BranchOffice>,
+    @InjectRepository(BranchOffice)
+    private readonly repo: Repository<BranchOffice>,
     private readonly _user: UserService,
     private readonly _company: CompanyService,
     private readonly _address: AddressService,
-  ) {
+  ) {}
+
+  async create(dto: CreateBranchOfficeDto): Promise<BranchOffice> {
+    return this.processSave(dto);
   }
 
-  async create(dto: CreateBranchOfficeDto) {
-    const branchOffice = new BranchOffice();
+  async findAll(companyId: number): Promise<BranchOffice[]> {
+    return this.repo.find({ where: { company: companyId } });
+  }
+
+  async findOne(id: number): Promise<BranchOffice> {
+    return await this.repo.findOneOrFail(id);
+  }
+
+  async update(id: number, dto: UpdateBranchOfficeDto): Promise<BranchOffice> {
+    return this.processSave(dto, id);
+  }
+
+  async remove(id: number) {
+    const branchOffice = await this.repo.findOneOrFail(id);
+    return branchOffice.softRemove();
+  }
+
+  async getMe(user: User): Promise<BranchOffice> {
+    return this.repo.findOneOrFail({ where: { administrator: user.id } });
+  }
+
+  private async processSave(
+    dto: CreateBranchOfficeDto | UpdateBranchOfficeDto,
+    id?: number,
+  ) {
+    const branchOffice = id
+      ? await this.repo.findOneOrFail(id)
+      : new BranchOffice();
 
     const company = await this._company.findOne(dto.companyId);
     if (!company) return branchOffice;
@@ -35,28 +65,9 @@ export class BranchOfficeService {
     if (!address) return branchOffice;
     branchOffice.address = address;
 
+    branchOffice.businessName = dto.businessName;
     branchOffice.businessPhone = dto?.businessPhone;
 
     return await branchOffice.save();
-  }
-
-  findAll() {
-    return `This action returns all branchOffice`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} branchOffice`;
-  }
-
-  update(id: number, updateBranchOfficeDto: UpdateBranchOfficeDto) {
-    return `This action updates a #${id} branchOffice`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} branchOffice`;
-  }
-
-  async getMe(user: User): Promise<BranchOffice> {
-    return this.repo.findOneOrFail({ where: { administrator: user.id } });
   }
 }

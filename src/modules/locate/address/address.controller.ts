@@ -12,6 +12,11 @@ import { Address } from './entities/address.entity';
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
+  @Auth({
+    resource: AppResource.ADDRESS,
+    action: 'create',
+    possession: 'own'
+  })
   @Post()
   @ApiCreatedResponse({
     description: 'The record has been successfully created.',
@@ -48,6 +53,11 @@ export class AddressController {
     return address;
   }
 
+  @Auth({
+    resource: AppResource.ADDRESS,
+    action: 'update',
+    possession: 'own'
+  })
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -57,6 +67,11 @@ export class AddressController {
     return this.addressService.update(+id, updateAddressDto, req?.ip);
   }
 
+  @Auth({
+    resource: AppResource.ADDRESS,
+    action: 'delete',
+    possession: 'own'
+  })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.addressService.remove(+id);
