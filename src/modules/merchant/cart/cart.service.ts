@@ -61,9 +61,12 @@ export class CartService {
     if (products?.length !== productsId?.length) return cart;
 
     // Se guardan los productos en la tabla relacional
-    products.forEach(async (product) => {
-      const cartItem = items.find((item, index) => ((item.id === products[index].id) || (item.id === product.id)));
-      // const cartItem = items[index];
+    productsId.forEach(async (item, index) => {
+      const product = products.find((product) => product.id === item.id);
+
+      if (!product) return;
+
+      const cartItem = items[index];
 
       const productsToCart = new ProductToCart();
       productsToCart.cart = cart;
@@ -83,7 +86,7 @@ export class CartService {
 
       productsToCart.save();
     });
-
+  
     return cart;
   }
 }

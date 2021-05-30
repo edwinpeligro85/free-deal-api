@@ -1,5 +1,12 @@
 import { AuditableEntity } from 'src/base-entity';
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+} from 'typeorm';
 import { Modifier } from '../../product/entities/modifier.entity';
 import { Product } from '../../product/entities/product.entity';
 import { Cart } from './cart.entity';
@@ -20,6 +27,7 @@ export class ProductToCart extends AuditableEntity {
 
   @ManyToMany(() => Modifier, {
     eager: true,
+    cascade: ['remove'],
   })
   @JoinTable()
   modifiers: Modifier[];
