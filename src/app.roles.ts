@@ -20,6 +20,7 @@ roles
   .grant(UserRole.CUSTOMER)
     .readAny([AppResource.COUNTRY, AppResource.STATE, AppResource.CITY, AppResource.COMPANY])
     .readOwn([AppResource.ADDRESS, AppResource.LOCATION, AppResource.USER])
+    .createOwn(AppResource.ADDRESS)
   .grant(UserRole.ADMINISTRATOR)
     .extend(UserRole.CUSTOMER)
     .createOwn([AppResource.EMPLOYEE])
