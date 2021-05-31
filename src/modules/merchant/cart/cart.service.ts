@@ -58,6 +58,8 @@ export class CartService {
     });
     const products = await this._product.find({ where: productsId });
 
+    if (products?.length !== productsId?.length) return cart;
+
     // Se guardan los productos en la tabla relacional
     productsId.forEach(async (item, index) => {
       const product = products.find((product) => product.id === item.id);

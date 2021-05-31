@@ -12,11 +12,11 @@ export class Order extends AuditableEntity {
   @JoinColumn()
   cart: Cart;
 
-  // @ManyToOne(() => User)
-  // customer: User;
+  @ManyToOne(() => User, user => user.orders)
+  customer: User;
 
-  // @ManyToOne(() => CompanyBase)
-  // company: CompanyBase;
+  @ManyToOne(() => CompanyBase, company => company.orders)
+  company: CompanyBase;
 
   @Column({
     type: 'enum',

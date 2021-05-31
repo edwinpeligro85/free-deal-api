@@ -18,7 +18,7 @@ export class CreateBranchOfficeDto {
     groups: [CrudValidationGroups.CREATE, CrudValidationGroups.UPDATE],
   })
   @IsInt()
-  adminId: number;
+  adminId?: number;
 
   @ApiProperty({
     description: 'Id de la empresa principal',

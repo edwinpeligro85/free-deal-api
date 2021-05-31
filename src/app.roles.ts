@@ -11,7 +11,8 @@ export enum AppResource {
   COMPANY = 'companies',
   BRANCH_OFFICE = 'branch_offices',
   PRODUCTS = 'products',
-  EMPLOYEE = 'employees'
+  EMPLOYEE = 'employees',
+  ORDER = 'orders'
 }
 
 export const roles: RolesBuilder = new RolesBuilder();

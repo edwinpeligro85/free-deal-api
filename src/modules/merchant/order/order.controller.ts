@@ -1,8 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Auth } from 'src/common/decorators';
+import { AppResource } from 'src/app.roles';
+import { User } from 'src/modules/user/entities/user.entity';
+import { Order } from './entities/order.entity';
 
 @ApiTags('Ordenes')
 @Controller('order')
@@ -10,8 +14,15 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto);
+  @Auth({
+    resource: AppResource.ORDER,
+    action: 'create',
+    possession: 'own',
+  })
+  create(@Body() createOrderDto: CreateOrderDto, @Request() req): Promise<Order> {
+    const user: User = req.user;
+
+    return this.orderService.create(createOrderDto, user);
   }
 
   @Get()
@@ -20,7 +31,7 @@ export class OrderController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Order> {
     return this.orderService.findOne(+id);
   }
 

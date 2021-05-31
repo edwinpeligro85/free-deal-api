@@ -3,6 +3,7 @@ import { Address } from 'src/modules/locate/address/entities/address.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, TableInheritance } from 'typeorm';
 import { Employee } from '../../employee/entities/employee.entity';
+import { Order } from '../../order/entities/order.entity';
 import { Product } from '../../product/entities/product.entity';
 
 @Entity('companies')
@@ -34,4 +35,7 @@ export class CompanyBase extends AuditableEntity {
     eager: true,
   })
   products: Product[];
+
+  @OneToMany(() => Order, order => order.company)
+  orders: Order[];
 }

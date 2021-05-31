@@ -1,9 +1,10 @@
 import { AuditableEntity } from 'src/base-entity';
-import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 import { UserRole } from '../enums/user-role.enum';
 import { UserStatus } from '../enums/user-status';
 import { hash } from 'bcrypt';
 import { Gender } from 'src/common/enums/gender.enum';
+import { Order } from 'src/modules/merchant/order/entities/order.entity';
 
 @Entity('users')
 export class User extends AuditableEntity {
@@ -45,6 +46,9 @@ export class User extends AuditableEntity {
 
   @Column({ type: 'enum', enum: Gender, nullable: true })
   gender: Gender;
+
+  @OneToMany(() => Order, order => order.customer)
+  orders: Order[];
 
   @BeforeInsert()
   @BeforeUpdate()

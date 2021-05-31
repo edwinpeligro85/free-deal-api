@@ -13,7 +13,8 @@ import { Employee } from './entities/employee.entity';
 export class EmployeeService {
   constructor(
     @InjectRepository(Employee) private readonly repo: Repository<Employee>,
-    @InjectRepository(CompanyBase) private readonly repoCompany: Repository<CompanyBase>,
+    @InjectRepository(CompanyBase)
+    private readonly repoCompany: Repository<CompanyBase>,
     private readonly _user: UserService,
     private readonly _company: CompanyService,
   ) {}
@@ -33,7 +34,7 @@ export class EmployeeService {
   }
 
   findAll(company: number) {
-    return this.repo.find({ where: { company } });
+    return this.repo.find({ where: { company }, relations: ['company', 'me'] });
   }
 
   async findOne(id: number) {
@@ -46,7 +47,8 @@ export class EmployeeService {
     employee.hireDate = dto.hireDate || employee.hireDate;
 
     if (dto.companyId) {
-      employee.company = await this.repoCompany.findOne(dto.companyId) || employee.company;
+      employee.company =
+        (await this.repoCompany.findOne(dto.companyId)) || employee.company;
     }
 
     return employee.save();

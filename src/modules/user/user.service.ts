@@ -31,4 +31,11 @@ export class UserService extends CrudHelper<User> {
       .addSelect('user.password')
       .getOne();
   }
+
+  async orders(user: User) {
+    return await this.repo.findOne({
+      where: { id: user.id},
+      relations: ['orders']
+    })
+  }
 }
