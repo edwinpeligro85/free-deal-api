@@ -61,10 +61,12 @@ export class CartService {
     if (products?.length !== productsId?.length) return cart;
 
     // Se guardan los productos en la tabla relacional
-    productsId.forEach(async (item, index) => {
+    for (let index = 0; index < productsId.length; index++) {
+      const item = productsId[index];
+      
       const product = products.find((product) => product.id === item.id);
 
-      if (!product) return;
+      if (!product) break;
 
       const cartItem = items[index];
 
@@ -78,15 +80,16 @@ export class CartService {
         const modifiers: Modifier[] = [];
 
         for (const id of cartItem.modifiers) {
+          if (!id) break;
           modifiers.push(await this._product.getModifiersById(id));
         }
 
         productsToCart.modifiers = modifiers;
       }
 
-      productsToCart.save();
-    });
-  
-    return cart;
+      await productsToCart.save();
+    }
+    
+    return await this.findOne(cart.id);
   }
 }
