@@ -14,6 +14,9 @@ export class CreateBranchOfficeDto {
     description: 'Id de Usuario administrador',
     example: 1,
   })
+  @IsOptional({
+    groups: [CrudValidationGroups.CREATE, CrudValidationGroups.UPDATE],
+  })
   @IsInt()
   adminId: number;
 

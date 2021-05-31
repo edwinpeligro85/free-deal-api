@@ -5,8 +5,8 @@ import { compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { CreateUserDto } from '../user/dto/create-user.dto';
-import { RegistrationStatus } from './interfaces/registration-status.interface';
-import { LoginStatus } from './interfaces/login-status.interface';
+import { LoginResponseDto } from './dto/login-response.dto';
+import { RegisterResponseDto } from './dto/register-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -15,21 +15,18 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(userDto: CreateUserDto): Promise<RegistrationStatus> {
-    let status: RegistrationStatus = {
-      success: true,
-      message: 'user registered',
-      user: null,
-    };
+  async register(userDto: CreateUserDto): Promise<RegisterResponseDto> {
+    const status: RegisterResponseDto = new RegisterResponseDto(
+      true,
+      'user registered',
+      null,
+    );
 
     try {
       status.user = await this._user.create(userDto);
     } catch (err) {
-      status = {
-        success: false,
-        message: err,
-        user: null,
-      };
+      status.success = false;
+      status.message = err;
     }
     return status;
   }
@@ -64,13 +61,10 @@ export class AuthService {
     return { user: result, message: null };
   }
 
-  async login(user: User): Promise<LoginStatus> {
+  async login(user: User): Promise<LoginResponseDto> {
     const { password, ...result } = user;
 
-    return {
-      user: result,
-      accessToken: this.createToken(user),
-    };
+    return new LoginResponseDto(this.createToken(user), result);
   }
 
   createToken(user: User): string {

@@ -41,7 +41,7 @@ export class BranchOfficeService {
     return branchOffice.softRemove();
   }
 
-  async getMe(user: User): Promise<BranchOffice> {
+  getMe(user: User): Promise<BranchOffice> {
     return this.repo.findOneOrFail({ where: { administrator: user.id } });
   }
 
@@ -57,9 +57,11 @@ export class BranchOfficeService {
     if (!company) return branchOffice;
     branchOffice.company = company;
 
-    const admin = await this._user.findOne(dto.adminId);
-    if (!admin) return branchOffice;
-    branchOffice.administrator = admin;
+    if (dto.adminId) {
+      const admin = await this._user.findOne(dto.adminId);
+      if (!admin) return branchOffice;
+      branchOffice.administrator = admin;
+    }
 
     const address = await this._address.findOne(dto.addressId);
     if (!address) return branchOffice;

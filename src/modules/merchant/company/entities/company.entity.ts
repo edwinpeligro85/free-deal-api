@@ -3,7 +3,6 @@ import { ChildEntity, Column, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { BranchOffice } from '../../branch-office/entities/branch-office.entity';
 import { CompanyBase } from './company-base.entity';
 
-// @Entity('companies')
 @ChildEntity()
 export class Company extends CompanyBase {
 

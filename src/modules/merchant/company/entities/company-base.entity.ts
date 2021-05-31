@@ -5,7 +5,6 @@ import { Column, Entity, JoinColumn, OneToMany, OneToOne, TableInheritance } fro
 import { Employee } from '../../employee/entities/employee.entity';
 import { Product } from '../../product/entities/product.entity';
 
-// @Entity()
 @Entity('companies')
 @TableInheritance({column: {type: 'varchar', name: 'type'}})
 export class CompanyBase extends AuditableEntity {

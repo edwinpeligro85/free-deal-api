@@ -42,7 +42,7 @@ export class ProductService extends CrudHelper<Product> {
       entityType = AppResource.COMPANY;
     } else if (dto.entity === AppResource.BRANCH_OFFICE) {
       // TODO: COMPLETAR LOGICA DE LAS SUCURSALES
-      entityId = new BranchOffice().id;
+      entityId = dto.ownerId;
       entityType = AppResource.BRANCH_OFFICE;
     } else {
       entityId = entityType = null;
