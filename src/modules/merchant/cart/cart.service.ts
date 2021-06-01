@@ -58,8 +58,6 @@ export class CartService {
     });
     const products = await this._product.find({ where: productsId });
 
-    if (products?.length !== productsId?.length) return cart;
-
     // Se guardan los productos en la tabla relacional
     for (let index = 0; index < productsId.length; index++) {
       const item = productsId[index];

@@ -35,7 +35,7 @@ export class UserService extends CrudHelper<User> {
   async orders(user: User) {
     return await this.repo.findOne({
       where: { id: user.id},
-      relations: ['orders']
+      relations: ['orders', 'orders.cart']
     })
   }
 }
